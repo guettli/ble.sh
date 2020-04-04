@@ -1629,7 +1629,7 @@ function ble/base/initialize-cache-directory/.xdg {
   fi
 
 #%if target == "osh"
-  local ver=${BLE_VERSINFO[0]}.${BLE_VERSINFO[1]}-osh
+  local ver=${BLE_VERSINFO[0]}.${BLE_VERSINFO[1]}+osh
 #%else
   local ver=${BLE_VERSINFO[0]}.${BLE_VERSINFO[1]}
 #%end
@@ -1651,7 +1651,12 @@ function ble/base/initialize-cache-directory {
       ln -s "$cache_dir/$UID" "$old_cache_dir"
     fi
   fi
-  ble/base/.create-user-directory _ble_base_cache "$cache_dir/$UID"
+#%if target == "osh"
+  local ver=${BLE_VERSINFO[0]}.${BLE_VERSINFO[1]}+osh
+#%else
+  local ver=${BLE_VERSINFO[0]}.${BLE_VERSINFO[1]}
+#%end
+  ble/base/.create-user-directory _ble_base_cache "$cache_dir/$UID/$ver"
 }
 function ble/base/migrate-cache-directory/.move {
   local old=$1 new=$2
