@@ -23,7 +23,7 @@ function ble-measure/.loop {
 ##   @param[in] n command
 ##   @var[out] ret
 ##     計測にかかった総時間を μs 単位で返します。
-if [[ $0 != osh ]] && ((BASH_VERSINFO[0]>=5)) ||
+if [[ ! $OIL_VERSION ]] && ((BASH_VERSINFO[0]>=5)) ||
      { [[ ${ZSH_VERSION-} ]] && zmodload zsh/datetime &>/dev/null && [[ ${EPOCHREALTIME-} ]]; } ||
      [[ ${SECONDS-} == *.??? ]]
 then
