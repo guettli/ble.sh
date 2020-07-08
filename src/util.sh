@@ -4287,6 +4287,10 @@ function ble/util/rlvar#has {
   [[ $_ble_local_rlvars == *$'\n'"set $1 "* ]]
 }
 
+#%if target == "osh"
+function ble/util/rlvar#test { (($2)); }
+function ble/util/rlvar#read { ret=$2; }
+#%else
 ## @fn ble/util/rlvar#test name [default(0 or 1)]
 function ble/util/rlvar#test {
   if [[ ! ${_ble_local_rlvars:-} ]]; then
@@ -4314,6 +4318,7 @@ function ble/util/rlvar#read {
   local rhs=${_ble_local_rlvars#*$'\n'"set $1 "}
   [[ $rhs != "$_ble_local_rlvars" ]] && ret=${rhs%%$'\n'*}
 }
+#%end
 
 ## @fn ble/util/rlvar#bind-bleopt name bleopt [opts]
 function ble/util/rlvar#bind-bleopt {
