@@ -752,7 +752,7 @@ function ble/prompt/unit#update/.update-dependencies {
 
     if [[ ! $ble_prompt_unit_processing ]]; then
       local ble_prompt_unit_processing=1
-      "${_ble_util_set_declare[@]//NAME/ble_prompt_unit_mark}" # WA #D1570 checked
+      builtin eval --"${_ble_util_set_declare//NAME/ble_prompt_unit_mark}"
     elif ble/set#contains ble_prompt_unit_mark "$unit"; then
       ble/util/print "ble/prompt: FATAL: detected cyclic dependency ($unit required by $ble_prompt_unit_parent)" >&"$_ble_util_fd_stderr"
       return 1
@@ -3692,7 +3692,7 @@ function ble/edit/display-version/git-rev-parse {
   (*)       git_base=$1 ;;
   esac
 
-  "${_ble_util_set_declare[@]//NAME/visited}" # WA #D1570 checked
+  builtin eval -- "${_ble_util_set_declare//NAME/visited}"
   until [[ -s $git_base/HEAD || -s $git_base/.git/HEAD ]]; do
     # guard for cyclic refs
     ble/set#contains visited "$git_base" && return 1

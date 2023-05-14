@@ -1437,12 +1437,12 @@ function ble/opts#extract-all-optargs {
 }
 
 if ((_ble_bash>=40000)); then
-  _ble_util_set_declare=(declare -A NAME)
+  _ble_util_set_declare='declare -A NAME'
   function ble/set#add { builtin eval -- "$1[x\$2]=1"; }
   function ble/set#remove { builtin unset -v "$1[x\$2]"; }
   function ble/set#contains { builtin eval "[[ \${$1[x\$2]+set} ]]"; }
 else
-  _ble_util_set_declare=(declare NAME)
+  _ble_util_set_declare='declare NAME'
   function ble/set#.escape {
     _ble_local_value=${_ble_local_value//$_ble_term_FS/"$_ble_term_FS$_ble_term_FS"}
     _ble_local_value=${_ble_local_value//:/"$_ble_term_FS."}
@@ -4570,7 +4570,7 @@ function ble/util/import/search {
     fi
     ble/array#push dirs "$_ble_base"{,/contrib,/lib}
 
-    "${_ble_util_set_declare[@]//NAME/checked}" # WA #D1570 checked
+    builtin eval -- "${_ble_util_set_declare//NAME/checked}"
     local path
     for path in "${dirs[@]}"; do
       ble/set#contains checked "$path" && continue

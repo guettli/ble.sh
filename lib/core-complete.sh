@@ -9473,7 +9473,7 @@ function ble/cmdinfo/complete:cd/.impl {
   ((ext==148||ext==0)) && return "$ext"
 
   local is_pwd_visited= is_cdpath_generated=
-  "${_ble_util_set_declare[@]//NAME/visited}" # WA #D1570 checked
+  builtin eval -- "${_ble_util_set_declare//NAME/visited}"
 
   # Check CDPATH first
   local name names; ble/string#split names : "$CDPATH"
