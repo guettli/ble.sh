@@ -241,9 +241,11 @@ fi 3>&2 4<&0 5>&1 &>/dev/null # set -x 対策 #D0930
 
   # 暫定対策 expand_aliases (ble/base/adjust-bash-options を呼び出す迄の暫定)
   _ble_bash_expand_aliases=
+#%if target != "osh"
   \shopt -q expand_aliases &&
     _ble_bash_expand_aliases=1 &&
     \shopt -u expand_aliases || ((1))
+#%end
 
   # 対策 FUNCNEST
   _ble_bash_FUNCNEST_adjusted=
