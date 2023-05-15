@@ -26,4 +26,6 @@ if tput lines &>/dev/null; then
 fi
 
 PS1='[\e[32m\u@\h\e[m \W]\$ '
+echo '$ read -ep "$PS1"'
 read -ep "$PS1"
+echo "Result='$REPLY'"
