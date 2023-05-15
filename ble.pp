@@ -63,6 +63,9 @@ ble/debug/leakvar#check $"leakvar" "[after include @.sh]"
 #
 #   Copyright: 2013, 2015-2019, Koichi Murase <myoga.murase@gmail.com>
 #
+#%if target == "osh"
+shopt -s eval_unsafe_arith
+#%end
 
 #%if measure_load_time
 echo "ble.sh: $EPOCHREALTIME load start" >&2
