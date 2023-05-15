@@ -152,11 +152,11 @@ let '_ble_unicode_c2w_custom['{55216..55238}']=0' # U+d7b0..d7c6 Lo 1 HANGUL JAM
 let '_ble_unicode_c2w_custom['{55243..55291}']=0' # U+d7cb..d7fb Lo 1 HANGUL JAMO EXTENDED-B (2) (49字)
 
 function ble/unicode/c2w {
-  local c=$1
+  local c=$(($1))
   ret=${_ble_unicode_c2w_custom[c]}
   [[ $ret ]] && return 0
 
-  ret=${_ble_unicode_c2w[c]}
+  ret=${_ble_unicode_c2w[$c]}
   if [[ ! $ret ]]; then
     ret=${_ble_unicode_c2w_index[c<0x20000?c>>8:((c>>12)-32+512)]}
     if [[ $ret == *:* ]]; then
@@ -169,7 +169,7 @@ function ble/unicode/c2w {
           u=$m
         fi
       done
-      ret=${_ble_unicode_c2w[_ble_unicode_c2w_ranges[l]]}
+      ret=${_ble_unicode_c2w[${_ble_unicode_c2w_ranges[l]}]}
     fi
   fi
   ret=${_ble_unicode_c2w_UnicodeVersionMapping[ret*_ble_unicode_c2w_UnicodeVersionCount+_ble_unicode_c2w_version]}
@@ -233,8 +233,8 @@ function bleopt/check:emoji_opts {
 }
 
 function ble/unicode/EmojiStatus {
-  local code=$1 V=$_ble_unicode_EmojiStatus_version
-  ret=${_ble_unicode_EmojiStatus[code]}
+  local code=$(($1)) V=$_ble_unicode_EmojiStatus_version
+  ret=${_ble_unicode_EmojiStatus[$code]}
   if [[ ! $ret ]]; then
     ret=$_ble_unicode_EmojiStatus_None
     if ((_ble_unicode_EmojiStatus_xmaybe)); then
@@ -242,9 +242,9 @@ function ble/unicode/EmojiStatus {
       while ((l+1<u)); do
         ((_ble_unicode_EmojiStatus_ranges[m=(l+u)/2]<=code?(l=m):(u=m)))
       done
-      ret=${_ble_unicode_EmojiStatus[_ble_unicode_EmojiStatus_ranges[l]]:-0}
+      ret=${_ble_unicode_EmojiStatus[${_ble_unicode_EmojiStatus_ranges[l]}]:-0}
     fi
-    _ble_unicode_EmojiStatus[code]=$ret
+    _ble_unicode_EmojiStatus[$code]=$ret
   fi
   ((ret=ret))
   return 0
@@ -377,7 +377,7 @@ function ble/util/c2w:musl {
   while ((l+1<u)); do
     ((_ble_util_c2w_musl_ranges[m=(l+u)/2]<=code?(l=m):(u=m)))
   done
-  ret=${_ble_util_c2w_musl[_ble_util_c2w_musl_ranges[l]]}
+  ret=${_ble_util_c2w_musl[${_ble_util_c2w_musl_ranges[l]}]}
 }
 
 _ble_util_c2w_auto_update_x0=0
@@ -535,8 +535,8 @@ function bleopt/check:grapheme_cluster {
 #%< canvas.GraphemeClusterBreak.sh
 
 function ble/unicode/GraphemeCluster/c2break {
-  local code=$1
-  ret=${_ble_unicode_GraphemeClusterBreak[code]}
+  local code=$(($1))
+  ret=${_ble_unicode_GraphemeClusterBreak[$code]}
   [[ $ret ]] && return 0
   ((ret>_ble_unicode_GraphemeClusterBreak_MaxCode)) && { ret=0; return 0; }
 
@@ -545,8 +545,8 @@ function ble/unicode/GraphemeCluster/c2break {
     ((_ble_unicode_GraphemeClusterBreak_ranges[m=(l+u)/2]<=code?(l=m):(u=m)))
   done
 
-  ret=${_ble_unicode_GraphemeClusterBreak[_ble_unicode_GraphemeClusterBreak_ranges[l]]:-0}
-  _ble_unicode_GraphemeClusterBreak[code]=$ret
+  ret=${_ble_unicode_GraphemeClusterBreak[${_ble_unicode_GraphemeClusterBreak_ranges[l]}]:-0}
+  _ble_unicode_GraphemeClusterBreak[$code]=$ret
   return 0
 }
 
