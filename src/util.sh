@@ -2897,8 +2897,10 @@ else
   fi
 fi
 ble/fd#alloc _ble_util_fd_null '<> /dev/null' base:inherit
+#%if target != "osh"
 [[ -c /dev/zero ]] &&
   ble/fd#alloc _ble_util_fd_zero '< /dev/zero' base:inherit
+#%end
 
 function ble/fd#close-all-tty {
   local -a fds=()
