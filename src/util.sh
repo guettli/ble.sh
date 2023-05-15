@@ -1560,7 +1560,11 @@ else
 fi
 
 if ((_ble_bash>=40200)); then
+#%if target == "osh"
+  _ble_util_gdict_declare='{ builtin unset -v NAME; declare -gA NAME=(); }'
+#%else
   _ble_util_gdict_declare='{ builtin unset -v NAME; declare -gA NAME; NAME=(); }'
+#%end
   function ble/gdict#set   { ble/dict#set   "$@"; }
   function ble/gdict#get   { ble/dict#get   "$@"; }
   function ble/gdict#unset { ble/dict#unset "$@"; }
