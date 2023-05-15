@@ -2638,6 +2638,10 @@ function ble/function#suppress-stderr {
   return 0
 }
 
+#%if target == "osh"
+function ble/function#suppress-stderr { return 0; }
+#%end
+
 #
 # miscallaneous utils
 #
